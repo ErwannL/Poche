@@ -91,6 +91,32 @@ describe('App', () => {
     ).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'Plus tard' }));
     expect(await screen.findByRole('heading', { name: 'Nouvelle tâche' })).toBeInTheDocument();
+    // Le bandeau permet d'y revenir.
+    await userEvent.click(screen.getByRole('button', { name: 'Reconnexion nécessaire' }));
+    expect(
+      await screen.findByRole('heading', { name: 'Reconnexion nécessaire' }),
+    ).toBeInTheDocument();
+  });
+
+  it('shows the reconnection screen again for a new 401 after navigating', async () => {
+    render(<App />);
+    await userEvent.click(await screen.findByRole('button', { name: 'Réglages' }));
+    await act(async () => {
+      await updateSettings({ authRequired: true });
+    });
+    expect(
+      await screen.findByRole('heading', { name: 'Reconnexion nécessaire' }),
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: 'Plus tard' }));
+    await act(async () => {
+      await updateSettings({ authRequired: false });
+    });
+    await act(async () => {
+      await updateSettings({ authRequired: true });
+    });
+    expect(
+      await screen.findByRole('heading', { name: 'Reconnexion nécessaire' }),
+    ).toBeInTheDocument();
   });
 
   it('leaves the reconnection screen through navigation', async () => {

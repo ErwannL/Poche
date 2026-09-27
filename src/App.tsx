@@ -83,7 +83,10 @@ function Shell() {
   );
 
   const pending = captures?.filter((c) => c.status !== 'sent').length ?? 0;
-  const needsReconnect = settings?.authRequired === true && !reconnectLater;
+  const authRequired = settings?.authRequired === true;
+  // « Plus tard » ne vaut que pour l'épisode 401 en cours.
+  if (!authRequired && reconnectLater) setReconnectLater(false);
+  const needsReconnect = authRequired && !reconnectLater;
 
   return (
     <ToastContext value={showToast}>
@@ -113,6 +116,17 @@ function Shell() {
             />
           ) : (
             <>
+              {authRequired && (
+                <button
+                  type="button"
+                  className="btn mb-4 w-full bg-amber-100 text-amber-950 dark:bg-amber-900/50 dark:text-amber-100"
+                  onClick={() => {
+                    setReconnectLater(false);
+                  }}
+                >
+                  {t('reconnect.heading')}
+                </button>
+              )}
               {view === 'capture' && (
                 <CaptureView
                   key={shared ? 'shared' : 'blank'}
@@ -155,7 +169,7 @@ function Shell() {
                   className="flex min-h-14 w-full flex-col items-center justify-center text-sm font-medium text-slate-600 aria-[current=page]:text-brand-600 dark:text-slate-300 dark:aria-[current=page]:text-brand-500"
                   onClick={() => {
                     setView(item);
-                    setReconnectLater(true);
+                    if (needsReconnect) setReconnectLater(true);
                   }}
                 >
                   {t(`nav.${item}`)}
