@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t">
+  <title id="t">Poche</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <rect x="176" y="92" width="160" height="196" rx="20" fill="#fef3c7" transform="rotate(-8 256 190)"/>
+  <path d="M206 170l30 30 60-64" fill="none" stroke="#4338ca" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-8 256 190)"/>
+  <path d="M112 216h288v96c0 79.5-64.5 144-144 144s-144-64.5-144-144z" fill="#f8fafc"/>
+  <path d="M152 256h208" stroke="#c7d2fe" stroke-width="14" stroke-linecap="round" stroke-dasharray="4 26"/>
+</svg>

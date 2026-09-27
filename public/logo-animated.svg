@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t">
+  <title id="t">Poche</title>
+  <style>
+    .card { animation: drop 2.4s cubic-bezier(.5,0,.3,1.4) infinite; transform-origin: 256px 190px; }
+    .check { stroke-dasharray: 140; stroke-dashoffset: 140; animation: draw 2.4s ease-out infinite; }
+    .pocket { animation: squish 2.4s ease-in-out infinite; transform-origin: 256px 456px; }
+    @keyframes drop {
+      0% { transform: translateY(-140px) rotate(-20deg); opacity: 0; }
+      15% { opacity: 1; }
+      45%, 100% { transform: translateY(0) rotate(-8deg); opacity: 1; }
+    }
+    @keyframes draw { 0%, 50% { stroke-dashoffset: 140; } 75%, 100% { stroke-dashoffset: 0; } }
+    @keyframes squish { 0%, 40% { transform: scale(1); } 48% { transform: scale(1.04, .96); } 56%, 100% { transform: scale(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      .card, .check, .pocket { animation: none; }
+      .card { transform: rotate(-8deg); }
+      .check { stroke-dashoffset: 0; }
+    }
+  </style>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <g class="card">
+    <rect x="176" y="92" width="160" height="196" rx="20" fill="#fef3c7"/>
+    <path class="check" d="M206 170l30 30 60-64" fill="none" stroke="#4338ca" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g class="pocket">
+    <path d="M112 216h288v96c0 79.5-64.5 144-144 144s-144-64.5-144-144z" fill="#f8fafc"/>
+    <path d="M152 256h208" stroke="#c7d2fe" stroke-width="14" stroke-linecap="round" stroke-dasharray="4 26"/>
+  </g>
+</svg>
