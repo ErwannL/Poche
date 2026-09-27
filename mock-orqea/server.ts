@@ -6,6 +6,6 @@ const port = Number(process.env.MOCK_PORT ?? 4010);
 
 createMockApp(config).listen(port, () => {
   console.log(
-    `Mock Orqea sur http://localhost:${port} — modes : ${config.modes.join(', ') || 'aucun'}`,
+    `Mock Orqea sur http://localhost:${String(port)} — modes : ${config.modes.join(', ') || 'aucun'}`,
   );
 });

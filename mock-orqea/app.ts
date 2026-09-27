@@ -160,7 +160,7 @@ export function createMockApp(initial: MockConfig, deps: MockDeps = {}) {
         const form = await new Request('http://mock.local/', {
           method: 'POST',
           headers: { 'Content-Type': String(req.get('Content-Type')) },
-          body: req.body as Buffer,
+          body: new Uint8Array(req.body as Buffer),
         }).formData();
         const value = form.get('file');
         file = value instanceof File ? value : null;

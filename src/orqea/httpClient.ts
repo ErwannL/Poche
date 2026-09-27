@@ -52,27 +52,30 @@ async function toError(response: Response, now: number): Promise<OrqeaError> {
   return new OrqeaError('invalid', { status });
 }
 
-function assertShape<T>(value: unknown, guard: (v: unknown) => boolean): T {
+function assertShape<T>(value: unknown, guard: (v: unknown) => v is T): T {
   if (!guard(value)) throw new OrqeaError('invalid');
-  return value as T;
+  return value;
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
-const isBoard = (v: unknown) =>
+const isBoard = (v: unknown): v is Board =>
   isObject(v) &&
   typeof v.id === 'string' &&
   typeof v.title === 'string' &&
   typeof v.encrypted === 'boolean';
-const isList = (v: unknown) =>
+const isList = (v: unknown): v is BoardList =>
   isObject(v) &&
   typeof v.id === 'string' &&
   typeof v.title === 'string' &&
   typeof v.position === 'number';
-const isCard = (v: unknown) =>
+const isCard = (v: unknown): v is CreatedCard =>
   isObject(v) && typeof v.id === 'string' && typeof v.boardPosition === 'number';
-const isAttachment = (v: unknown) => isObject(v) && typeof v.url === 'string';
-const arrayOf = (guard: (v: unknown) => boolean) => (v: unknown) =>
-  Array.isArray(v) && v.every(guard);
+const isAttachment = (v: unknown): v is UploadedAttachment =>
+  isObject(v) && typeof v.url === 'string';
+const arrayOf =
+  <T>(guard: (v: unknown) => v is T) =>
+  (v: unknown): v is T[] =>
+    Array.isArray(v) && v.every(guard);
 
 export function createHttpOrqeaClient(options: HttpClientOptions): OrqeaClient {
   const base = options.baseUrl.replace(/\/+$/, '');
@@ -99,11 +102,11 @@ export function createHttpOrqeaClient(options: HttpClientOptions): OrqeaClient {
 
   return {
     async listBoards() {
-      return assertShape<Board[]>(await request('/boards'), arrayOf(isBoard));
+      return assertShape(await request('/boards'), arrayOf(isBoard));
     },
     async listLists(boardId) {
       const body = await request(`/boards/${encodeURIComponent(boardId)}/lists`);
-      return assertShape<BoardList[]>(body, arrayOf(isList));
+      return assertShape(body, arrayOf(isList));
     },
     async createCard(input: CreateCardInput) {
       const body = await request('/cards', {
@@ -111,7 +114,7 @@ export function createHttpOrqeaClient(options: HttpClientOptions): OrqeaClient {
         headers: { 'Content-Type': 'application/json', 'Idempotency-Key': input.clientId },
         body: JSON.stringify(input),
       });
-      return assertShape<CreatedCard>(body, isCard);
+      return assertShape(body, isCard);
     },
     async uploadAttachment(cardId: string, file: File, uploadOptions: UploadOptions = {}) {
       const form = new FormData();
@@ -123,7 +126,7 @@ export function createHttpOrqeaClient(options: HttpClientOptions): OrqeaClient {
         headers,
         body: form,
       });
-      return assertShape<UploadedAttachment>(body, isAttachment);
+      return assertShape(body, isAttachment);
     },
   };
 }
