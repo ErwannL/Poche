@@ -3,6 +3,8 @@ import { resetEventsForTests } from '../lib/events';
 
 /** Remet IndexedDB (fake-indexeddb) à zéro entre deux tests. */
 export async function resetDb(): Promise<void> {
+  // Laisse se terminer les lectures encore en vol du test précédent.
+  await new Promise((resolve) => setTimeout(resolve, 30));
   await closeDb();
   resetEventsForTests();
   await new Promise<void>((resolve, reject) => {

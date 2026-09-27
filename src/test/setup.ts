@@ -14,3 +14,19 @@ globalThis.FormData = nodeFormData.constructor as typeof FormData;
 afterEach(() => {
   cleanup();
 });
+
+// API absentes de jsdom.
+// Toujours remplacé : l'implémentation Node ne gère pas les Blob de test.
+{
+  Object.assign(URL, { createObjectURL: () => 'blob:mock', revokeObjectURL: () => undefined });
+}
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  Object.assign(window, {
+    matchMedia: (query: string) => ({
+      matches: false,
+      media: query,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }),
+  });
+}

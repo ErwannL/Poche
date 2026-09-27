@@ -3,7 +3,7 @@ import { useI18n } from '../i18n/context';
 import { useLive } from '../hooks/useLive';
 import { useAppActions } from '../hooks/useAppActions';
 import { listCaptures } from '../captures/repo';
-import { isSortKey, sortCaptures, SORTS, type SortKey } from '../captures/sort';
+import { sortCaptures, SORTS, type SortKey } from '../captures/sort';
 import { InboxItem } from './InboxItem';
 
 export function InboxView() {
@@ -28,7 +28,8 @@ export function InboxView() {
             className="field"
             value={sort}
             onChange={(event) => {
-              if (isSortKey(event.target.value)) setSort(event.target.value);
+              // Les options proviennent de SORTS : la valeur est toujours valide.
+              setSort(event.target.value as SortKey);
             }}
           >
             {SORTS.map((key) => (

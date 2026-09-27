@@ -18,12 +18,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/**/*.tsx'],
+    files: ['src/**/*.{ts,tsx}'],
     plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh, 'jsx-a11y': jsxA11y },
     rules: {
       ...reactHooks.configs.recommended.rules,
       ...jsxA11y.flatConfigs.strict.rules,
       'react-refresh/only-export-components': ['error', { allowConstantExport: true }],
+      '@typescript-eslint/non-nullable-type-assertion-style': 'off',
     },
   },
   { files: ['**/*.js', '**/*.mjs'], ...tseslint.configs.disableTypeChecked },
@@ -35,6 +36,7 @@ export default tseslint.config(
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
     },

@@ -25,6 +25,3 @@ const compare: Record<SortKey, (a: Capture, b: Capture) => number> = {
 export function sortCaptures(captures: readonly Capture[], key: SortKey): Capture[] {
   return [...captures].sort(compare[key]);
 }
-
-export const isSortKey = (value: string): value is SortKey =>
-  (SORTS as readonly string[]).includes(value);

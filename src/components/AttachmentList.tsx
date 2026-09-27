@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useI18n } from '../i18n/context';
 import type { CaptureAttachment } from '../captures/types';
 
 function Thumbnail({ attachment }: { attachment: CaptureAttachment }) {
   const { t } = useI18n();
-  const [url, setUrl] = useState<string>();
-  useEffect(() => {
-    if (attachment.kind !== 'image') return;
-    const objectUrl = URL.createObjectURL(attachment.blob);
-    setUrl(objectUrl);
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [attachment]);
+  const url = useMemo(
+    () => (attachment.kind === 'image' ? URL.createObjectURL(attachment.blob) : undefined),
+    [attachment],
+  );
+  useEffect(
+    () => () => {
+      if (url) URL.revokeObjectURL(url);
+    },
+    [url],
+  );
   if (url) return <img src={url} alt="" className="size-16 rounded-lg object-cover" />;
   return (
     <span className="flex size-16 items-center justify-center rounded-lg bg-slate-200 text-xs dark:bg-slate-700">

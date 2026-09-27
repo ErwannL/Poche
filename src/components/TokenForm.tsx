@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from 'react';
+import { useId, useState, type SyntheticEvent } from 'react';
 import { useI18n } from '../i18n/context';
 import { useToast } from '../hooks/useToast';
 import { useAppActions } from '../hooks/useAppActions';
@@ -16,7 +16,7 @@ export function TokenForm({ onSaved }: { onSaved?: () => void }) {
   const [token, setToken] = useState('');
   const [invalid, setInvalid] = useState(false);
 
-  const submit = async (event: FormEvent) => {
+  const submit = async (event: SyntheticEvent) => {
     event.preventDefault();
     const candidate = token.trim();
     if (!isValidPat(candidate)) {

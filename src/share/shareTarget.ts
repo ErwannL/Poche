@@ -13,7 +13,7 @@ export function draftFromFormData(form: FormData, now = Date.now()): SharedDraft
   const files = form
     .getAll('files')
     .filter((f): f is File => typeof f !== 'string' && f.size > 0)
-    .map((f) => ({ name: f.name || 'image', type: f.type, blob: f as Blob }));
+    .map((f) => ({ name: f.name || 'image', type: f.type, blob: f }));
   return {
     id: newId(),
     title: text(form, 'title'),

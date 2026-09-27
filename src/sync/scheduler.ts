@@ -8,14 +8,14 @@ interface SyncManagerLike {
 
 /** Demande un Background Sync au service worker, s'il existe et le supporte. */
 export async function requestBackgroundSync(
-  container: ServiceWorkerContainer | undefined = navigator.serviceWorker as
-    ServiceWorkerContainer | undefined,
+  // `serviceWorker` est absent hors contexte sécurisé, malgré le typage.
+  container = navigator.serviceWorker as ServiceWorkerContainer | undefined,
 ): Promise<boolean> {
   try {
-    const registration = await container?.getRegistration();
-    const sync = (registration as { sync?: SyncManagerLike } | undefined)?.sync;
-    if (!sync) return false;
-    await sync.register(SYNC_TAG);
+    const registration = (await container?.getRegistration()) as
+      { sync?: SyncManagerLike } | undefined;
+    if (!registration?.sync) return false;
+    await registration.sync.register(SYNC_TAG);
     return true;
   } catch {
     return false;
@@ -50,6 +50,8 @@ export function startScheduler({
   let running: Promise<void> | null = null;
   let again = false;
   let stopped = false;
+  // Lu via une fonction : `stop()` peut changer la valeur pendant un `await`.
+  const shouldRepeat = () => again && !stopped;
 
   const schedule = (at: number | null) => {
     clearTimeout(timer);
@@ -65,7 +67,7 @@ export function startScheduler({
       } catch {
         schedule(null);
       }
-    } while (again && !stopped);
+    } while (shouldRepeat());
     running = null;
   };
 

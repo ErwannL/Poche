@@ -28,9 +28,12 @@ const speechCtor = (win: VoiceWindow): SpeechCtor | undefined =>
   win.SpeechRecognition ?? win.webkitSpeechRecognition;
 
 /** Web Speech API si disponible, sinon enregistrement audio joint, sinon rien. */
-export function detectVoiceMode(win: VoiceWindow = window as VoiceWindow): VoiceMode {
+export function detectVoiceMode(win: VoiceWindow = window): VoiceMode {
   if (speechCtor(win)) return 'speech';
-  if (win.MediaRecorder && typeof navigator.mediaDevices?.getUserMedia === 'function') {
+  if (
+    win.MediaRecorder &&
+    typeof (navigator.mediaDevices as MediaDevices | undefined)?.getUserMedia === 'function'
+  ) {
     return 'recorder';
   }
   return 'none';
@@ -48,12 +51,14 @@ export function useVoice({ lang, onText, onAudio }: VoiceOptions) {
   const [error, setError] = useState(false);
   const stopRef = useRef<(() => void) | null>(null);
   const callbacks = useRef({ onText, onAudio });
-  callbacks.current = { onText, onAudio };
+  useEffect(() => {
+    callbacks.current = { onText, onAudio };
+  });
 
   useEffect(() => () => stopRef.current?.(), []);
 
   const startSpeech = useCallback(() => {
-    const Ctor = speechCtor(window as VoiceWindow) as SpeechCtor;
+    const Ctor = speechCtor(window) as SpeechCtor;
     const recognition = new Ctor();
     recognition.lang = lang;
     recognition.continuous = false;

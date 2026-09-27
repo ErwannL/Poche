@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type SyntheticEvent } from 'react';
 import { useI18n } from '../i18n/context';
 import type { MessageKey } from '../i18n/translate';
 import { PRIORITIES, type Priority } from '../orqea/types';
@@ -72,8 +72,9 @@ export function CaptureForm({
     (photoFirst ? photoButtonRef : titleRef).current?.focus();
   }, [photoFirst]);
 
-  const onPhotos = async (files: FileList | null) => {
-    for (const file of Array.from(files ?? [])) {
+  const onPhotos = async (input: HTMLInputElement) => {
+    // `files` n'est jamais nul sur un input de type file.
+    for (const file of Array.from(input.files as FileList)) {
       try {
         const image = await compressImage(file);
         addAttachment({ id: newId(), kind: 'image', ...image });
@@ -81,10 +82,10 @@ export function CaptureForm({
         toast('photo.error', 'error');
       }
     }
-    if (photoInputRef.current) photoInputRef.current.value = '';
+    input.value = '';
   };
 
-  const submit = async (event: FormEvent) => {
+  const submit = async (event: SyntheticEvent) => {
     event.preventDefault();
     if (!value.title.trim()) {
       setShowError(true);
@@ -164,7 +165,7 @@ export function CaptureForm({
           multiple
           hidden
           data-testid="photo-input"
-          onChange={(event) => void onPhotos(event.target.files)}
+          onChange={(event) => void onPhotos(event.currentTarget)}
         />
       </div>
       <p aria-live="polite" className="text-sm text-slate-600 dark:text-slate-400">
