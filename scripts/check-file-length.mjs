@@ -7,7 +7,9 @@ const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclud
   encoding: 'utf8',
 })
   .split('\n')
-  .filter((f) => /\.(ts|tsx|js|mjs|css|html|md|json|yml|svg)$/.test(f) && f !== 'package-lock.json');
+  .filter(
+    (f) => /\.(ts|tsx|js|mjs|css|html|md|json|yml|svg)$/.test(f) && f !== 'package-lock.json',
+  );
 
 let failed = false;
 for (const file of files) {

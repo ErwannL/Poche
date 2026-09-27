@@ -16,5 +16,13 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["vite.config.ts", "pwa-manifest.ts", "vitest.config.ts", "playwright.config.ts", "mock-orqea", "e2e", "scripts"]
+  "include": [
+    "vite.config.ts",
+    "pwa-manifest.ts",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "mock-orqea",
+    "e2e",
+    "scripts"
+  ]
 }
