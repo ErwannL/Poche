@@ -9,6 +9,10 @@ export type FailureReason =
   | 'planLimit'
   | 'paymentRequired'
   | 'boardNotFound'
+  | 'notFound'
+  | 'tokenScope'
+  | 'tooLarge'
+  | 'unsupportedMedia'
   | 'invalid'
   | 'tooManyAttempts';
 

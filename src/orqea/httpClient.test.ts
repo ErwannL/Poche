@@ -106,6 +106,21 @@ describe('createHttpOrqeaClient', () => {
     expect(error.message).not.toContain('server text');
   });
 
+  it('reads the code Orqea gives to a scope refusal and an unsupported file', async () => {
+    const scope = await caught(
+      setup(json({ code: 'TOKEN_SCOPE', message: 'server text' }, 403)).client.listBoards(),
+    );
+    expect([scope.kind, scope.apiCode]).toEqual(['notFound', 'TOKEN_SCOPE']);
+    const media = await caught(setup(json({ code: 'UNSUPPORTED_MEDIA' }, 400)).client.listBoards());
+    expect([media.kind, media.apiCode]).toEqual(['invalid', 'UNSUPPORTED_MEDIA']);
+    const other = await caught(setup(json({ code: 'WHATEVER' }, 400)).client.listBoards());
+    expect(other.apiCode).toBeUndefined();
+    const notJson = await caught(
+      setup(() => Promise.resolve(new Response('nope', { status: 413 }))).client.listBoards(),
+    );
+    expect([notJson.kind, notJson.status, notJson.apiCode]).toEqual(['invalid', 413, undefined]);
+  });
+
   it.each([
     [{ code: 'FEATURE_LOCKED', message: 'Achetez !' }, 'FEATURE_LOCKED'],
     [{ code: 'PLAN_LIMIT' }, 'PLAN_LIMIT'],

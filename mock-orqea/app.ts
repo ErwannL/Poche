@@ -63,6 +63,11 @@ export function createMockApp(initial: MockConfig, deps: MockDeps = {}) {
         .json({ code: config.paymentCode, message: 'Upgrade your plan (server text)' });
       return;
     }
+    if (has('403')) {
+      // Le refus d'Orqea pour un jeton hors de sa portée (`TOKEN_SCOPE`, hors de /api/v1).
+      res.status(403).json({ code: 'TOKEN_SCOPE', message: 'Token scope (server text)' });
+      return;
+    }
     if (has('404')) {
       res.status(404).json({ error: 'not_found' });
       return;

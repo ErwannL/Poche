@@ -1,4 +1,4 @@
-export const MODES = ['slow', '401', '402', '404', '429', '5xx'] as const;
+export const MODES = ['slow', '401', '402', '403', '404', '429', '5xx'] as const;
 export type Mode = (typeof MODES)[number];
 export type PaymentCode = 'FEATURE_LOCKED' | 'PLAN_LIMIT';
 

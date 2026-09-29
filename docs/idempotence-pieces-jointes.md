@@ -33,9 +33,14 @@ Reste une fenêtre de doublon **seulement si Orqea ignore l'en-tête** et que la
 **Recommandation provisoire : A.** Aucun changement côté Poche n'est nécessaire si Orqea l'adopte ; pour B,
 seul `src/orqea/httpClient.ts` change.
 
-## À décider
+## Décision (Orqea, sept. 2026)
 
-- [ ] Option retenue
-- [ ] Durée de conservation des clés côté Orqea
-- [ ] Taille maximale et types acceptés (Poche envoie : `image/webp` ou `image/jpeg` ≤ 1600 px, audio `webm`/`mp4`)
-- [ ] Faut-il exposer la liste des pièces jointes d'une carte (`GET /cards/:id/attachments`) pour une réconciliation ?
+- [x] **Option A retenue et implémentée côté Orqea** : unicité `(utilisateur, carte, Idempotency-Key)`,
+      `201` au premier envoi, `200` + la même `url` au rejeu. Aucun changement de contrat pour Poche.
+- [x] **Taille maximale : 10 Mo** (au-delà : `413`, message « fichier trop volumineux »). Types : toute image
+      décodable (le format DÉCODÉ décide de l'extension, jamais SVG) et l'audio `webm`/`mp4` ; le reste
+      répond `400 UNSUPPORTED_MEDIA`.
+- [x] **Affichage sur la carte** : Orqea n'a pas de zone « pièces jointes ». Une **image** est ajoutée à la
+      description en `<img src="/uploads/…">` (comme un collage dans l'éditeur) ; un mémo vocal en lien.
+- [ ] Durée de conservation des clés côté Orqea : non bornée pour l'instant.
+- [ ] `GET /cards/:id/attachments` : non exposé.

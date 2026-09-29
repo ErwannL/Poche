@@ -33,7 +33,12 @@ export function failureFor(error: OrqeaError): FailureReason {
     if (error.code === 'PLAN_LIMIT') return 'planLimit';
     return 'paymentRequired';
   }
-  return error.kind === 'notFound' ? 'boardNotFound' : 'invalid';
+  if (error.kind === 'notFound') {
+    if (error.apiCode === 'TOKEN_SCOPE') return 'tokenScope';
+    return error.status === 404 ? 'notFound' : 'boardNotFound';
+  }
+  if (error.status === 413) return 'tooLarge';
+  return error.apiCode === 'UNSUPPORTED_MEDIA' ? 'unsupportedMedia' : 'invalid';
 }
 
 async function deliver(client: OrqeaClient, capture: Capture, listId: string): Promise<void> {

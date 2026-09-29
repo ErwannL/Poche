@@ -1,4 +1,4 @@
-import { OrqeaError, type PaymentCode } from './errors';
+import { OrqeaError, type ApiCode, type PaymentCode } from './errors';
 import type {
   Board,
   BoardList,
@@ -38,18 +38,30 @@ async function paymentCode(response: Response): Promise<PaymentCode> {
   }
 }
 
+async function apiCode(response: Response): Promise<ApiCode | undefined> {
+  try {
+    const body: unknown = await response.json();
+    const code = (body as { code?: unknown } | null)?.code;
+    return code === 'TOKEN_SCOPE' || code === 'UNSUPPORTED_MEDIA' ? code : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 async function toError(response: Response, now: number): Promise<OrqeaError> {
   const { status } = response;
   if (status === 401) return new OrqeaError('unauthorized', { status });
   if (status === 402)
     return new OrqeaError('payment', { status, code: await paymentCode(response) });
-  if (status === 403 || status === 404) return new OrqeaError('notFound', { status });
+  if (status === 403 || status === 404) {
+    return new OrqeaError('notFound', { status, apiCode: await apiCode(response) });
+  }
   if (status === 429) {
     const retryAfterMs = parseRetryAfter(response.headers.get('Retry-After'), now);
     return new OrqeaError('rateLimited', { status, retryAfterMs });
   }
   if (status >= 500) return new OrqeaError('server', { status });
-  return new OrqeaError('invalid', { status });
+  return new OrqeaError('invalid', { status, apiCode: await apiCode(response) });
 }
 
 function assertShape<T>(value: unknown, guard: (v: unknown) => v is T): T {

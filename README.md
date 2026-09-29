@@ -47,16 +47,16 @@ Exclus de la couverture unitaire (points d'entrée, couverts par les tests E2E) 
 
 Serveur Express, données en mémoire (3 tableaux dont un chiffré, 5 listes). Variables :
 
-| Variable           | Défaut           | Effet                                  |
-| ------------------ | ---------------- | -------------------------------------- |
-| `MOCK_PORT`        | `4010`           |                                        |
-| `MOCK_TOKEN`       | voir ci-dessus   | jeton accepté                          |
-| `MOCK_MODES`       | —                | liste parmi `slow,401,402,404,429,5xx` |
-| `MOCK_SLOW_MS`     | `3000`           | délai du mode `slow`                   |
-| `MOCK_ERROR_RATE`  | `0.5`            | probabilité d'une 503 en mode `5xx`    |
-| `MOCK_402_CODE`    | `FEATURE_LOCKED` | ou `PLAN_LIMIT`                        |
-| `MOCK_RETRY_AFTER` | `5`              | secondes, en mode `429`                |
-| `MOCK_CORS_ORIGIN` | `*`              |                                        |
+| Variable           | Défaut           | Effet                                                                    |
+| ------------------ | ---------------- | ------------------------------------------------------------------------ |
+| `MOCK_PORT`        | `4010`           |                                                                          |
+| `MOCK_TOKEN`       | voir ci-dessus   | jeton accepté                                                            |
+| `MOCK_MODES`       | —                | liste parmi `slow,401,402,403,404,429,5xx` (`403` = refus `TOKEN_SCOPE`) |
+| `MOCK_SLOW_MS`     | `3000`           | délai du mode `slow`                                                     |
+| `MOCK_ERROR_RATE`  | `0.5`            | probabilité d'une 503 en mode `5xx`                                      |
+| `MOCK_402_CODE`    | `FEATURE_LOCKED` | ou `PLAN_LIMIT`                                                          |
+| `MOCK_RETRY_AFTER` | `5`              | secondes, en mode `429`                                                  |
+| `MOCK_CORS_ORIGIN` | `*`              |                                                                          |
 
 Ex. : `MOCK_MODES=slow,5xx npm run mock`. À chaud : `POST /__mock/config {"modes":["401"]}`,
 `POST /__mock/reset`, `GET /__mock/state` (cartes et pièces jointes créées).

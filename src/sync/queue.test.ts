@@ -131,7 +131,8 @@ describe('processQueue', () => {
     [new OrqeaError('payment', { status: 402, code: 'FEATURE_LOCKED' }), 'featureLocked'],
     [new OrqeaError('payment', { status: 402, code: 'PLAN_LIMIT' }), 'planLimit'],
     [new OrqeaError('payment', { status: 402, code: 'UNKNOWN' }), 'paymentRequired'],
-    [new OrqeaError('notFound', { status: 404 }), 'boardNotFound'],
+    [new OrqeaError('notFound', { status: 403 }), 'boardNotFound'],
+    [new OrqeaError('notFound', { status: 404 }), 'notFound'],
     [new OrqeaError('invalid', { status: 400 }), 'invalid'],
   ])('marks %o as definitive failure %s and continues', async (error, failure) => {
     const { client } = createFakeClient();
@@ -226,7 +227,15 @@ describe('processQueue', () => {
 
 describe('failureFor', () => {
   it('maps non-payment errors', () => {
-    expect(failureFor(new OrqeaError('notFound'))).toBe('boardNotFound');
+    expect(failureFor(new OrqeaError('notFound', { status: 403 }))).toBe('boardNotFound');
+    expect(failureFor(new OrqeaError('notFound', { status: 404 }))).toBe('notFound');
+    expect(failureFor(new OrqeaError('notFound', { status: 403, apiCode: 'TOKEN_SCOPE' }))).toBe(
+      'tokenScope',
+    );
     expect(failureFor(new OrqeaError('invalid'))).toBe('invalid');
+    expect(failureFor(new OrqeaError('invalid', { status: 413 }))).toBe('tooLarge');
+    expect(failureFor(new OrqeaError('invalid', { apiCode: 'UNSUPPORTED_MEDIA' }))).toBe(
+      'unsupportedMedia',
+    );
   });
 });

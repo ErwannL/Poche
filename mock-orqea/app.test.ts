@@ -179,6 +179,14 @@ describe('mock modes', () => {
     expect(res.body.code).toBe('PLAN_LIMIT');
   });
 
+  it('403 mode answers TOKEN_SCOPE', async () => {
+    const res = await request(make({ modes: ['403'] }).app)
+      .get('/api/v1/boards')
+      .set(auth);
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe('TOKEN_SCOPE');
+  });
+
   it('404 mode', async () => {
     expect(
       (

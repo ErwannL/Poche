@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { resetDb } from '../test/db';
 import { renderUi } from '../test/render';
 import type { CaptureInput } from '../captures/types';
+import { toOffsetIso } from '../captures/due';
 import { CaptureForm } from './CaptureForm';
 
 const voice = vi.hoisted(() => ({
@@ -90,7 +91,7 @@ describe('CaptureForm', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Aucune' }));
     await userEvent.click(screen.getByRole('button', { name: 'Capturer' }));
     expect(onSubmit.mock.calls[0]![0]).toMatchObject({
-      dueDate: new Date(2026, 11, 24, 20, 30).toISOString(),
+      dueDate: toOffsetIso(new Date(2026, 11, 24, 20, 30)),
       priority: undefined,
     });
   });
