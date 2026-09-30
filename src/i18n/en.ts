@@ -2,6 +2,7 @@ import type { MessageKey } from './fr';
 
 export const en: Record<MessageKey, string> = {
   'app.name': 'Poche',
+  'app.byline': 'by Orqea',
   'app.tagline': 'Quick task capture',
   'app.skipToContent': 'Skip to content',
   'network.offline': 'Offline',
@@ -10,6 +11,10 @@ export const en: Record<MessageKey, string> = {
   'nav.capture': 'Capture',
   'nav.inbox': 'Inbox',
   'nav.settings': 'Settings',
+  'nav.backToOrqea': 'Back to Orqea',
+  'credits.owner': 'Boosted by {name}',
+  'credits.author': 'Developed by {name}',
+  'credits.newTab': '(new tab)',
   'nav.pendingCount': '{count} pending',
 
   'capture.heading': 'New task',
@@ -112,7 +117,7 @@ export const en: Record<MessageKey, string> = {
   'settings.tokenSave': 'Save token',
   'settings.tokenSaved': 'Token saved.',
   'settings.tokenStored': 'A token is saved (encrypted on this device).',
-  'settings.tokenForget': 'Forget this token',
+  'settings.tokenForget': 'Erase the token from this device',
   'settings.tokenForgotten': 'Token forgotten.',
   'settings.destination': 'Default destination',
   'settings.boardLabel': 'Board',

@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_ORQEA_API_URL?: string;
+  readonly VITE_ORQEA_APP_URL?: string;
 }
 
 interface ImportMeta {

@@ -11,6 +11,8 @@ import { errorMessageKey } from '../orqea/errorMessages';
 import type { MessageKey } from '../i18n/translate';
 import { DestinationPicker } from '../components/DestinationPicker';
 import { TokenForm } from '../components/TokenForm';
+import { Logo } from '../components/Logo';
+import { BackToOrqea, Credits } from '../components/OrqeaLinks';
 
 const THEMES: ThemePreference[] = ['system', 'light', 'dark'];
 const LANGUAGES: { value: Locale | ''; label: MessageKey | null; name?: string }[] = [
@@ -59,7 +61,7 @@ export function SettingsView() {
             <p>{t('settings.tokenStored')}</p>
             <button
               type="button"
-              className="btn-danger self-start"
+              className="btn-secondary self-start"
               onClick={() => {
                 void forgetToken().then(() => {
                   toast('settings.tokenForgotten');
@@ -72,6 +74,7 @@ export function SettingsView() {
         ) : (
           <TokenForm />
         )}
+        <BackToOrqea />
       </section>
 
       <section aria-labelledby="settings-destination" className="card flex flex-col gap-3">
@@ -148,6 +151,16 @@ export function SettingsView() {
           </select>
         </div>
       </section>
+
+      <footer className="flex items-center gap-3">
+        <Logo size={40} title={t('app.name')} />
+        <div>
+          <p className="font-semibold">
+            {t('app.name')} <span className="text-sm font-normal">{t('app.byline')}</span>
+          </p>
+          <Credits />
+        </div>
+      </footer>
     </section>
   );
 }

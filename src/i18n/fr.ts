@@ -1,5 +1,6 @@
 export const fr = {
   'app.name': 'Poche',
+  'app.byline': 'par Orqea',
   'app.tagline': 'Capture rapide de tâches',
   'app.skipToContent': 'Aller au contenu',
   'network.offline': 'Hors ligne',
@@ -8,6 +9,10 @@ export const fr = {
   'nav.capture': 'Capturer',
   'nav.inbox': 'Boîte',
   'nav.settings': 'Réglages',
+  'nav.backToOrqea': 'Revenir sur Orqea',
+  'credits.owner': 'Propulsé par {name}',
+  'credits.author': 'Développé par {name}',
+  'credits.newTab': '(nouvel onglet)',
   'nav.pendingCount': '{count} en attente',
 
   'capture.heading': 'Nouvelle tâche',
@@ -110,7 +115,7 @@ export const fr = {
   'settings.tokenSave': 'Enregistrer le jeton',
   'settings.tokenSaved': 'Jeton enregistré.',
   'settings.tokenStored': 'Un jeton est enregistré (chiffré sur cet appareil).',
-  'settings.tokenForget': 'Oublier ce jeton',
+  'settings.tokenForget': 'Effacer le jeton de cet appareil',
   'settings.tokenForgotten': 'Jeton oublié.',
   'settings.destination': 'Destination par défaut',
   'settings.boardLabel': 'Tableau',

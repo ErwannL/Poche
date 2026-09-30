@@ -38,10 +38,11 @@ Exclus de la couverture unitaire (points d'entrée, couverts par les tests E2E) 
 
 ### Configuration
 
-| Variable             | Défaut                  | Effet                                            |
-| -------------------- | ----------------------- | ------------------------------------------------ |
-| `VITE_ORQEA_API_URL` | `""`                    | URL de base de l'API Orqea ; `""` = même origine |
-| `MOCK_ORQEA_URL`     | `http://localhost:4010` | cible du proxy `/api` en dev / preview           |
+| Variable             | Défaut                                      | Effet                                                     |
+| -------------------- | ------------------------------------------- | --------------------------------------------------------- |
+| `VITE_ORQEA_API_URL` | `""`                                        | URL de base de l'API Orqea ; `""` = même origine          |
+| `MOCK_ORQEA_URL`     | `http://localhost:4010`                     | cible du proxy `/api` en dev / preview                    |
+| `VITE_ORQEA_APP_URL` | `http://localhost:3001` en local, sinon `/` | URL de l’application Orqea (bouton « Revenir sur Orqea ») |
 
 ### Le mock Orqea (`mock-orqea/`)
 

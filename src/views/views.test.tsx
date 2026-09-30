@@ -128,7 +128,9 @@ describe('SettingsView', () => {
   it('forgets the token', async () => {
     await saveToken(TOKEN);
     const { toast } = renderUi(<SettingsView />);
-    await userEvent.click(await screen.findByRole('button', { name: 'Oublier ce jeton' }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: 'Effacer le jeton de cet appareil' }),
+    );
     await waitFor(() => {
       expect(toast).toHaveBeenCalledWith('settings.tokenForgotten');
     });

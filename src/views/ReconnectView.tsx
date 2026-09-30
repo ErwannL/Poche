@@ -1,5 +1,6 @@
 import { useI18n } from '../i18n/context';
 import { TokenForm } from '../components/TokenForm';
+import { BackToOrqea } from '../components/OrqeaLinks';
 
 /** Affiché quand Orqea répond 401 : ressaisir un jeton, ou continuer à capturer hors ligne. */
 export function ReconnectView({ onLater }: { onLater: () => void }) {
@@ -11,6 +12,7 @@ export function ReconnectView({ onLater }: { onLater: () => void }) {
       </h1>
       <p>{t('reconnect.body')}</p>
       <TokenForm />
+      <BackToOrqea />
       <button type="button" className="btn-secondary self-start" onClick={onLater}>
         {t('reconnect.later')}
       </button>

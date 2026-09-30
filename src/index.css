@@ -58,3 +58,69 @@ body {
     animation: none !important;
   }
 }
+
+/* Logo : immobile au repos, animé au survol ou au focus (coupé sous reduced-motion par la règle ci-dessus). */
+.poche-logo-card {
+  transform: rotate(-8deg);
+  transform-origin: 256px 190px;
+}
+.poche-logo-pocket {
+  transform-origin: 256px 456px;
+}
+@keyframes poche-drop {
+  0% {
+    transform: translateY(-140px) rotate(-20deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  45%,
+  100% {
+    transform: translateY(0) rotate(-8deg);
+    opacity: 1;
+  }
+}
+@keyframes poche-draw {
+  0%,
+  50% {
+    stroke-dashoffset: 140;
+  }
+  75%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes poche-squish {
+  0%,
+  40% {
+    transform: scale(1);
+  }
+  48% {
+    transform: scale(1.04, 0.96);
+  }
+  56%,
+  100% {
+    transform: scale(1);
+  }
+}
+.poche-logo:hover .poche-logo-card,
+.poche-logo:focus-visible .poche-logo-card,
+header:hover .poche-logo-card,
+footer:hover .poche-logo-card {
+  animation: poche-drop 2.4s cubic-bezier(0.5, 0, 0.3, 1.4) infinite;
+}
+.poche-logo:hover .poche-logo-check,
+.poche-logo:focus-visible .poche-logo-check,
+header:hover .poche-logo-check,
+footer:hover .poche-logo-check {
+  stroke-dasharray: 140;
+  stroke-dashoffset: 140;
+  animation: poche-draw 2.4s ease-out infinite;
+}
+.poche-logo:hover .poche-logo-pocket,
+.poche-logo:focus-visible .poche-logo-pocket,
+header:hover .poche-logo-pocket,
+footer:hover .poche-logo-pocket {
+  animation: poche-squish 2.4s ease-in-out infinite;
+}
