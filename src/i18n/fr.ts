@@ -12,7 +12,6 @@ export const fr = {
   'nav.backToOrqea': 'Revenir sur Orqea',
   'credits.owner': 'Propulsé par {name}',
   'credits.author': 'Développé par {name}',
-  'credits.newTab': '(nouvel onglet)',
   'nav.pendingCount': '{count} en attente',
 
   'capture.heading': 'Nouvelle tâche',

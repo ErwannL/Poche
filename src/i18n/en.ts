@@ -14,7 +14,6 @@ export const en: Record<MessageKey, string> = {
   'nav.backToOrqea': 'Back to Orqea',
   'credits.owner': 'Boosted by {name}',
   'credits.author': 'Developed by {name}',
-  'credits.newTab': '(new tab)',
   'nav.pendingCount': '{count} pending',
 
   'capture.heading': 'New task',

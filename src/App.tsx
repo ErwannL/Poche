@@ -11,6 +11,7 @@ import { listCaptures } from './captures/repo';
 import type { CaptureInput } from './captures/types';
 import { applyTheme } from './theme/theme';
 import { clearLaunch, parseLaunch } from './app/launch';
+import { applyLinkHandoff } from './app/linkHandoff';
 import { draftToInput, takeDraft } from './share/shareTarget';
 import { requestBackgroundSync, startScheduler, type Scheduler } from './sync/scheduler';
 import { runSync } from './sync/runner';
@@ -40,6 +41,11 @@ function Shell() {
   const [reconnectLater, setReconnectLater] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
   const scheduler = useRef<Scheduler | null>(null);
+
+  // Liaison depuis Orqea : lue AVANT clearLaunch (qui réécrit l'URL) ; sans fragment, inerte.
+  useEffect(() => {
+    void applyLinkHandoff(window.location, window.history);
+  }, []);
 
   useEffect(() => {
     clearLaunch(window.location, window.history);
