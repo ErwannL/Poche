@@ -2,11 +2,11 @@ import { useI18n } from '../i18n/context';
 import { CREDITS, orqeaAppUrl } from '../orqea/appUrl';
 
 /** « Propulsé par Orqea » (même onglet : la session d'Orqea vit dans l'onglet) et « Développé par Erwann Laplante ». */
-export function Credits({ className }: { className?: string }) {
+export function Credits({ className, onDark = false }: { className?: string; onDark?: boolean }) {
   const { t } = useI18n();
   return (
     <p
-      className={`flex flex-col text-xs leading-tight text-slate-600 dark:text-slate-400 ${className ?? ''}`}
+      className={`flex flex-col text-xs leading-tight ${onDark ? 'text-white/90' : 'text-slate-600 dark:text-slate-400'} ${className ?? ''}`}
     >
       <a href={orqeaAppUrl()} target="_top" className="font-semibold hover:underline">
         {t('credits.owner', { name: 'Orqea' })}
@@ -15,7 +15,7 @@ export function Credits({ className }: { className?: string }) {
         href={CREDITS.author.href}
         target="_blank"
         rel="noreferrer noopener"
-        className="hover:underline"
+        className={`hover:underline ${onDark ? 'text-white/70' : 'text-slate-500 dark:text-slate-400'}`}
       >
         {t('credits.author', { name: CREDITS.author.name })}
       </a>

@@ -19,7 +19,7 @@ import { CaptureView } from './views/CaptureView';
 import { InboxView } from './views/InboxView';
 import { SettingsView } from './views/SettingsView';
 import { ReconnectView } from './views/ReconnectView';
-import { Logo } from './components/Logo';
+import { Brand } from './components/Brand';
 
 type View = 'capture' | 'inbox' | 'settings';
 const VIEWS: View[] = ['capture', 'inbox', 'settings'];
@@ -105,11 +105,7 @@ function Shell() {
           {t('app.skipToContent')}
         </a>
         <header className="sticky top-0 z-10 flex items-center gap-3 bg-brand-600 px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-3 text-white">
-          <Logo />
-          <span className="text-lg font-bold">
-            {t('app.name')}{' '}
-            <span className="text-xs font-normal opacity-80">{t('app.byline')}</span>
-          </span>
+          <Brand onDark />
           <span
             className={`ml-auto rounded-full px-3 py-1 text-xs font-semibold ${online ? 'bg-white/20' : 'bg-amber-300 text-amber-950'}`}
           >

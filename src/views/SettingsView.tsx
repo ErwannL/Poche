@@ -11,8 +11,8 @@ import { errorMessageKey } from '../orqea/errorMessages';
 import type { MessageKey } from '../i18n/translate';
 import { DestinationPicker } from '../components/DestinationPicker';
 import { TokenForm } from '../components/TokenForm';
-import { Logo } from '../components/Logo';
-import { BackToOrqea, Credits } from '../components/OrqeaLinks';
+import { BackToOrqea } from '../components/OrqeaLinks';
+import { Brand } from '../components/Brand';
 
 const THEMES: ThemePreference[] = ['system', 'light', 'dark'];
 const LANGUAGES: { value: Locale | ''; label: MessageKey | null; name?: string }[] = [
@@ -152,14 +152,8 @@ export function SettingsView() {
         </div>
       </section>
 
-      <footer className="flex items-center gap-3">
-        <Logo size={40} title={t('app.name')} />
-        <div>
-          <p className="font-semibold">
-            {t('app.name')} <span className="text-sm font-normal">{t('app.byline')}</span>
-          </p>
-          <Credits />
-        </div>
+      <footer>
+        <Brand size={40} />
       </footer>
     </section>
   );
